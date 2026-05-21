@@ -18,7 +18,7 @@ function hasEmptyClassBody(source: string): { className: string }[] {
   return findings;
 }
 
-describe("python-fastapi router files compile as valid Python", () => {
+describe("python-fastapi files compile as valid Python", () => {
   test("classes with no fields emit `pass`", () => {
     const plan = buildPythonFastApiPlan({
       ir: multiFkIr,
@@ -40,7 +40,7 @@ describe("python-fastapi router files compile as valid Python", () => {
       options: { outputDir: "./out", docker: false, tests: false },
     });
     const router = plan.files.find(
-      (f) => f.path === "app/routers/alembic_version.py",
+      (f) => f.path === "app/api/routers/alembic_version.py",
     );
     expect(router).toBeTruthy();
     expect(hasEmptyClassBody(router!.contents)).toEqual([]);

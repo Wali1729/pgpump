@@ -39,7 +39,7 @@ PGPump is a Bun-based CLI that introspects a PostgreSQL database and generates a
 |--------|----------|--------|------------|-----------|----------|
 | Bun/Fastify | TypeScript | Fastify | Zod | `postgres` | `@fastify/swagger` |
 | Node/Express | TypeScript | Express | Zod | `pg` | `swagger-ui-express` |
-| Python/FastAPI | Python 3.10+ | FastAPI | Pydantic | `asyncpg` | FastAPI OpenAPI |
+| Python/FastAPI | Python 3.10+ | FastAPI | Pydantic | async SQLAlchemy + `asyncpg` | FastAPI OpenAPI |
 <!-- END AUTO-GENERATED -->
 
 ---
@@ -112,7 +112,7 @@ Optional `pgpump.config.ts` can register local adapters (see `pgpump.config.exam
 
 **Node/Express:** `src/controllers/`, `src/routes/`, `src/middleware/`, `src/db/`, `tests/`, `app.ts`, `package.json`, `tsconfig.json`.
 
-**Python/FastAPI:** `app/routers/`, `app/models/`, `app/database.py`, `tests/`, `main.py`, `requirements.txt`.
+**Python/FastAPI:** `app/api/routers/`, `app/models/`, `app/schemas/`, `app/repositories/`, `app/services/`, `app/db/`, `tests/`, `main.py`, `requirements.txt`.
 
 Templates use **Handlebars** (or similar) driven by the IR JSON.
 
@@ -138,7 +138,7 @@ Templates use **Handlebars** (or similar) driven by the IR JSON.
 - CLI runs on **Bun** without runtime errors.  
 - IR JSON is correct for a test DB with **≥ 3 tables** and **≥ 1 foreign key**.  
 - **Bun/Fastify** output: `bun run dev` serves **Swagger UI**; CRUD + pagination work against Postgres.  
-- **FastAPI** output: `uvicorn main:app` serves docs and connects via **asyncpg**.  
+- **FastAPI** output: `uvicorn main:app` serves docs and connects via **async SQLAlchemy** using the `asyncpg` driver.
 - Generated test suites pass at least **health-check** level.
 
 ---

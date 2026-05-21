@@ -83,11 +83,11 @@ const resolvers: Record<string, (plan: RenderPlan) => BrokenImport[]> = {
 
 function runAdapter(adapter: TargetAdapter) {
   describe(`cross-file imports — ${adapter.id}`, () => {
-    test("every relative/intra-project import resolves to an emitted file", () => {
-      const plan = adapter.buildRenderPlan({
+    test("every relative/intra-project import resolves to an emitted file", async () => {
+      const plan = await Promise.resolve(adapter.buildRenderPlan({
         ir: multiFkIr,
         options: { outputDir: "./out", docker: true, tests: true },
-      });
+      }));
       const broken = resolvers[adapter.id](plan);
       if (broken.length > 0) {
         const detail = broken
@@ -100,11 +100,11 @@ function runAdapter(adapter: TargetAdapter) {
       expect(broken).toEqual([]);
     });
 
-    test("no render file is emitted twice with the same path", () => {
-      const plan = adapter.buildRenderPlan({
+    test("no render file is emitted twice with the same path", async () => {
+      const plan = await Promise.resolve(adapter.buildRenderPlan({
         ir: multiFkIr,
         options: { outputDir: "./out", docker: false, tests: false },
-      });
+      }));
       const seen = new Map<string, number>();
       for (const f of plan.files) {
         seen.set(f.path, (seen.get(f.path) ?? 0) + 1);
