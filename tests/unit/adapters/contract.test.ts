@@ -48,6 +48,9 @@ describe("adapter file expectations", () => {
     expect(paths).toContain("src/server.ts");
     expect(paths).toContain("tests/health.test.ts");
     expect(paths.some((p) => p.includes("repositories/authors"))).toBe(true);
+    expect(paths.some((p) => p.startsWith("src/services/"))).toBe(true);
+    expect(paths.some((p) => p.startsWith("src/db/schema/"))).toBe(true);
+    expect(paths.some((p) => p.startsWith("src/types/"))).toBe(false);
   });
 
   test("python-fastapi includes modular app layers", () => {
@@ -65,12 +68,19 @@ describe("adapter file expectations", () => {
     expect(paths.some((p) => p.startsWith("app/services/"))).toBe(true);
   });
 
-  test("node-express includes app and async handler", () => {
+  test("node-express includes layered app structure", () => {
     const plan = buildNodeExpressPlan({
       ir: sampleIr,
-      options: { outputDir: "./out", docker: false, tests: true },
+      options: { outputDir: "./out", docker: true, tests: true },
     });
-    expect(plan.files.map((f) => f.path)).toContain("src/app.ts");
-    expect(plan.files.map((f) => f.path)).toContain("src/middleware/asyncHandler.ts");
+    const paths = plan.files.map((f) => f.path);
+    expect(paths).toContain("src/app.ts");
+    expect(paths).toContain("src/middleware/asyncHandler.ts");
+    expect(paths).toContain("tsconfig.json");
+    expect(paths).toContain("src/lib/errors.ts");
+    expect(paths.some((p) => p.startsWith("src/repositories/"))).toBe(true);
+    expect(paths.some((p) => p.startsWith("src/services/"))).toBe(true);
+    expect(paths.some((p) => p.startsWith("src/db/schema/"))).toBe(true);
+    expect(paths.some((p) => p.startsWith("src/schemas/"))).toBe(true);
   });
 });

@@ -33,11 +33,11 @@ export const ADAPTERS: AdapterMeta[] = [
   {
     id: "node-express",
     label: "Node + Express",
-    hint: "TypeScript · Zod · pg · swagger-ui-express",
+    hint: "TypeScript · Zod · Drizzle · pg · swagger-ui-express",
     language: "TypeScript",
     server: "Express",
     validation: "Zod",
-    client: "pg",
+    client: "Drizzle + pg",
     docs: "swagger-ui-express",
   },
 ];
