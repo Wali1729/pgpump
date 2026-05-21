@@ -1,0 +1,34 @@
+{
+  "name": "pgpump",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "packages/adapters/*"
+  ],
+  "scripts": {
+    "build": "bun run --filter '@pgpump/*' build",
+    "dev": "bun run packages/cli/src/index.ts",
+    "pgpump": "bun run packages/cli/src/index.ts",
+    "test": "bun test ./tests/ ./packages/",
+    "test:coverage": "bun test ./tests/ ./packages/ --coverage",
+    "test:ci": "SKIP_E2E=0 bun test ./tests/ ./packages/ --coverage",
+    "test:unit": "bun test ./tests/unit/ ./packages/",
+    "test:integration": "SKIP_E2E=0 bun test ./tests/integration/",
+    "test:e2e": "SKIP_E2E=0 bun test ./tests/integration/ ./tests/e2e/",
+    "test:golden": "bun test ./tests/golden/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@pgpump/core": "workspace:*",
+    "@pgpump/cli": "workspace:*",
+    "@pgpump/adapter-bun-fastify": "workspace:*",
+    "@pgpump/adapter-python-fastapi": "workspace:*",
+    "@pgpump/adapter-node-express": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "postgres": "^3.4.5",
+    "typescript": "^5.7.0"
+  }
+}

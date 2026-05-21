@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install
+        run: bun install
+      - name: Unit tests
+        run: bun test tests/unit tests/golden packages/core packages/adapters
+        env:
+          SKIP_E2E: "1"
+      - name: E2E tests (Docker)
+        run: bun run test:e2e
+      - name: Coverage (full suite)
+        run: bun run test:ci

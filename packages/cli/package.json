@@ -1,0 +1,23 @@
+{
+  "name": "@pgpump/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "pgpump": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "echo 'cli ready'"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.10.0",
+    "@pgpump/adapter-bun-fastify": "workspace:*",
+    "@pgpump/adapter-node-express": "workspace:*",
+    "@pgpump/adapter-python-fastapi": "workspace:*",
+    "@pgpump/core": "workspace:*",
+    "boxen": "^8.0.1",
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "gradient-string": "^3.0.0",
+    "ora": "^8.1.1"
+  }
+}

@@ -60,19 +60,47 @@ Connection failures exit with a clear, colored error.
 
 ---
 
-<!-- AUTO-GENERATED:package-scripts — source: package.json (regenerate with update-docs when present) -->
+<!-- AUTO-GENERATED:package-scripts — source: package.json -->
 ### Project scripts
-
-There is no root `package.json` in this repository yet. When the CLI package is added, regenerate this section from `package.json` (see Cursor command **update-docs**).
 
 | Command | Description |
 |---------|-------------|
-| `bun install` | Install dependencies *(planned)* |
-| `bun run dev` | CLI/dev workflow *(planned — name TBD)* |
-| `bun run build` | Production build of the CLI *(planned)* |
-| `bun test` | Test suite for PGPump itself *(planned)* |
+| `bun install` | Install workspace dependencies |
+| `bun run pgpump` | Run the PGPump CLI |
+| `bun run dev` | Alias for CLI dev entry |
+| `bun test` | Run all tests (E2E skipped by default, no coverage gate) |
+| `bun run test:coverage` | Full suite with coverage thresholds |
+| `bun run test:ci` | Full suite + E2E + coverage (CI) |
+| `bun run test:unit` | Unit + adapter contract tests |
+| `bun run test:e2e` | Integration + E2E (Docker Postgres, no coverage gate) |
+| `bun run test:golden` | Golden file path snapshots |
+| `bun run build` | Build workspace packages |
 
 <!-- END AUTO-GENERATED -->
+
+### CLI usage
+
+```bash
+# Interactive generate
+bun run pgpump generate -i
+
+# Non-interactive
+bun run pgpump generate \
+  --database-url "$DATABASE_URL" \
+  --target bun-fastify \
+  --output ./generated-api \
+  --docker \
+  --tests
+
+# Introspect only (IR JSON)
+bun run pgpump introspect \
+  --database-url "$DATABASE_URL" \
+  --output ir.json
+```
+
+Targets: `bun-fastify`, `python-fastapi`, `node-express`.
+
+Optional `pgpump.config.ts` can register local adapters (see `pgpump.config.example.ts` and [docs/ADAPTER_AUTHORING.md](docs/ADAPTER_AUTHORING.md)).
 
 ---
 

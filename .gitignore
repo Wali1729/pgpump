@@ -4,6 +4,10 @@
 !.env.example
 !.env.sample
 
+# Sample output from running PGPump in the repo (do not pick up its tests/sources)
+/generated-api/
+/ir.json
+
 # Python bytecode and caches
 __pycache__/
 *.py[cod]

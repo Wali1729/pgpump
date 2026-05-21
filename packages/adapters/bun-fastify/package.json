@@ -1,0 +1,9 @@
+{
+  "name": "@pgpump/adapter-bun-fastify",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@pgpump/core": "workspace:*"
+  }
+}

@@ -1,0 +1,12 @@
+[test]
+preload = ["./tests/setup.ts"]
+# Don't pick up tests inside projects generated *by* PGPump that live in the workspace.
+root = "."
+testPathIgnorePatterns = [
+  "**/generated-api/**",
+  "**/node_modules/**",
+]
+# Enable coverage only via `bun test --coverage` (see test:coverage / test:ci scripts).
+# Bun applies thresholds per source file, not only in aggregate.
+coveragePathIgnorePatterns = ["tests/**", "**/generated-api/**"]
+coverageThreshold = { lines = 0.8, functions = 0.75 }
