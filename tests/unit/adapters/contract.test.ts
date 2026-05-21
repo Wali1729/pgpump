@@ -14,19 +14,19 @@ function runAdapterContract(adapter: TargetAdapter) {
     expect(adapter.displayName).toBeTruthy();
   });
 
-  test(`${adapter.id} returns non-empty render plan`, () => {
-    const plan = adapter.buildRenderPlan({
+  test(`${adapter.id} returns non-empty render plan`, async () => {
+    const plan = await Promise.resolve(adapter.buildRenderPlan({
       ir: sampleIr,
       options: { outputDir: "./out", docker: true, tests: true },
-    });
+    }));
     expect(plan.files.length).toBeGreaterThan(5);
     expect(plan.files.every((f) => f.path && f.contents.length >= 0)).toBe(true);
   });
 
-  test(`${adapter.id} is deterministic`, () => {
+  test(`${adapter.id} is deterministic`, async () => {
     const opts = { ir: sampleIr, options: { outputDir: "./out", docker: false, tests: false } };
-    const a = adapter.buildRenderPlan(opts);
-    const b = adapter.buildRenderPlan(opts);
+    const a = await Promise.resolve(adapter.buildRenderPlan(opts));
+    const b = await Promise.resolve(adapter.buildRenderPlan(opts));
     expect(a.files.map((f) => f.path)).toEqual(b.files.map((f) => f.path));
   });
 }
@@ -50,13 +50,19 @@ describe("adapter file expectations", () => {
     expect(paths.some((p) => p.includes("repositories/authors"))).toBe(true);
   });
 
-  test("python-fastapi includes main and routers", () => {
+  test("python-fastapi includes modular app layers", () => {
     const plan = buildPythonFastApiPlan({
       ir: sampleIr,
       options: { outputDir: "./out", docker: false, tests: true },
     });
-    expect(plan.files.map((f) => f.path)).toContain("main.py");
-    expect(plan.files.some((f) => f.path.startsWith("app/routers/"))).toBe(true);
+    const paths = plan.files.map((f) => f.path);
+    expect(paths).toContain("main.py");
+    expect(paths).toContain("app/main.py");
+    expect(paths.some((p) => p.startsWith("app/api/routers/"))).toBe(true);
+    expect(paths.some((p) => p.startsWith("app/models/"))).toBe(true);
+    expect(paths.some((p) => p.startsWith("app/repositories/"))).toBe(true);
+    expect(paths.some((p) => p.startsWith("app/schemas/"))).toBe(true);
+    expect(paths.some((p) => p.startsWith("app/services/"))).toBe(true);
   });
 
   test("node-express includes app and async handler", () => {

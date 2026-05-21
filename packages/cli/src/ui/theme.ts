@@ -10,8 +10,10 @@ export const palette = {
   muted: "#64748b",
 };
 
-export const brandGradient = gradient([palette.primary, palette.accent]);
-export const successGradient = gradient([palette.accent, palette.success]);
+type ColorFormatter = (value: string) => string;
+
+export const brandGradient: ColorFormatter = gradient([palette.primary, palette.accent]);
+export const successGradient: ColorFormatter = gradient([palette.accent, palette.success]);
 
 export const c = {
   brand: (s: string) => brandGradient(s),

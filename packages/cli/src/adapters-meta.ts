@@ -23,11 +23,11 @@ export const ADAPTERS: AdapterMeta[] = [
   {
     id: "python-fastapi",
     label: "Python + FastAPI",
-    hint: "Python 3.10+ · Pydantic · asyncpg · built-in OpenAPI",
+    hint: "Python 3.10+ · Pydantic · SQLAlchemy async · built-in OpenAPI",
     language: "Python",
     server: "FastAPI",
     validation: "Pydantic",
-    client: "asyncpg",
+    client: "SQLAlchemy async",
     docs: "FastAPI OpenAPI",
   },
   {

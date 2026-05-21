@@ -11,7 +11,6 @@ function brokenAdapter(): TargetAdapter {
   return {
     id: "broken",
     displayName: "Broken (test-only)",
-    description: "Emits two identical fastify routes",
     buildRenderPlan: (_input: AdapterInput): RenderPlan => ({
       files: [
         {

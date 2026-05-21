@@ -88,31 +88,31 @@ function assertNoDuplicates(routes: RouteSignature[], label: string): void {
 
 function runAdapter(adapter: TargetAdapter) {
   describe(`route uniqueness — ${adapter.id}`, () => {
-    test("no duplicate routes on sample IR", () => {
-      const plan = adapter.buildRenderPlan({
+    test("no duplicate routes on sample IR", async () => {
+      const plan = await Promise.resolve(adapter.buildRenderPlan({
         ir: sampleIr,
         options: { outputDir: "./out", docker: false, tests: false },
-      });
+      }));
       const routes = extractors[adapter.id](plan);
       expect(routes.length).toBeGreaterThan(0);
       assertNoDuplicates(routes, adapter.id);
     });
 
-    test("no duplicate routes when child has multiple FKs to same parent", () => {
-      const plan = adapter.buildRenderPlan({
+    test("no duplicate routes when child has multiple FKs to same parent", async () => {
+      const plan = await Promise.resolve(adapter.buildRenderPlan({
         ir: multiFkIr,
         options: { outputDir: "./out", docker: false, tests: false },
-      });
+      }));
       const routes = extractors[adapter.id](plan);
       expect(routes.length).toBeGreaterThan(0);
       assertNoDuplicates(routes, adapter.id);
     });
 
-    test("passes the core route validator (no false positives on its own output)", () => {
-      const plan = adapter.buildRenderPlan({
+    test("passes the core route validator (no false positives on its own output)", async () => {
+      const plan = await Promise.resolve(adapter.buildRenderPlan({
         ir: multiFkIr,
         options: { outputDir: "./out", docker: true, tests: true },
-      });
+      }));
       expect(() => assertNoDuplicateRoutes(plan)).not.toThrow();
     });
   });
